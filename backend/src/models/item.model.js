@@ -9,6 +9,12 @@ const ItemModel = {
     const [rows] = await db.execute('SELECT * FROM items WHERE id = ?', [id]);
     return rows;
   },
+  create: async (name, description, price_per_day, stock, image_url) => {
+    const [rows] = await db.execute(
+      'INSERT INTO items (name, description, price_per_day, stock, image_url) VALUES (?, ?, ?, ?, ?)',
+      [name, description, price_per_day, stock, image_url]
+    );
+  },
 };
 
 export default ItemModel;

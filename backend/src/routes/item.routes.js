@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { getItems, getItemsById } from '../controllers/item.controller.js';
+import {
+  getItems,
+  getItemsById,
+  createItem,
+} from '../controllers/item.controller.js';
 
 const router = Router();
 
@@ -7,5 +11,7 @@ const router = Router();
 router.get('/', getItems);
 // get by id data items
 router.get('/:id', getItemsById);
+// Create data barang
+router.post('/', createItem);
 
 export default router;
