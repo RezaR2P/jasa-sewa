@@ -81,3 +81,20 @@ export const updateItem = async (req, res) => {
     });
   }
 };
+
+export const deleteItem = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const item = await ItemModel.delete(id);
+    res.json({
+      succes: true,
+      message: 'Data Berhasil Di Hapus',
+      data: item,
+    });
+  } catch (error) {
+    res.status(500).json({
+      succes: false,
+      message: 'Kesalahan Server',
+    });
+  }
+};
