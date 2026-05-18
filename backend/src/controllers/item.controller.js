@@ -37,7 +37,6 @@ export const getItemsById = async (req, res) => {
 export const createItem = async (req, res) => {
   try {
     const { name, description, price_per_day, stock, image_url } = req.body;
-    console.log(req.body);
     const items = await ItemModel.create(
       name,
       description,
@@ -51,7 +50,31 @@ export const createItem = async (req, res) => {
       data: items,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      succes: false,
+      message: 'Kesalahan Server',
+    });
+  }
+};
+
+export const updateItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, price_per_day, stock, image_url } = req.body;
+    const items = await ItemModel.update(
+      name,
+      description,
+      price_per_day,
+      stock,
+      image_url,
+      id
+    );
+    res.json({
+      succes: true,
+      message: 'Daftar Barang Berhasil Di Update',
+      data: items,
+    });
+  } catch (error) {
     res.status(500).json({
       succes: false,
       message: 'Kesalahan Server',

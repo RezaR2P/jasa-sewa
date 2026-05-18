@@ -15,6 +15,12 @@ const ItemModel = {
       [name, description, price_per_day, stock, image_url]
     );
   },
+  update: async (name, description, price_per_day, stock, image_url, id) => {
+    const [rows] = await db.execute(
+      'UPDATE items SET name=?, description=?, price_per_day=?, stock=?, image_url=? WHERE id = ?',
+      [name, description, price_per_day, stock, image_url, id]
+    );
+  },
 };
 
 export default ItemModel;

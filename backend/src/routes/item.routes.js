@@ -3,6 +3,7 @@ import {
   getItems,
   getItemsById,
   createItem,
+  updateItem,
 } from '../controllers/item.controller.js';
 
 const router = Router();
@@ -13,5 +14,7 @@ router.get('/', getItems);
 router.get('/:id', getItemsById);
 // Create data barang
 router.post('/', createItem);
+// Update data barang
+router.put('/:id', updateItem);
 
 export default router;
