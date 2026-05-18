@@ -9,6 +9,7 @@ export const getItems = async (req, res) => {
       data: items,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Terjadi kesalahan di server',
@@ -29,7 +30,7 @@ export const getItemsById = async (req, res) => {
     }
     res.json({
       success: true,
-      messsage: 'Berhasil Mengambil Data Barang By ID',
+      message: 'Berhasil Mengambil Data Barang By ID',
       data: item,
     });
   } catch (error) {
@@ -51,12 +52,13 @@ export const createItem = async (req, res) => {
       stock,
       image_url
     );
-    res.json({
+    res.status(201).json({
       success: true,
       message: 'Berhasil Membuat Barang',
       data: item,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Kesalahan Server',
@@ -89,6 +91,7 @@ export const updateItem = async (req, res) => {
       data: item,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Kesalahan Server',
@@ -112,6 +115,7 @@ export const deleteItem = async (req, res) => {
       data: item,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: 'Kesalahan Server',
