@@ -1,5 +1,9 @@
 USE camping_rental;
 
+INSERT INTO users (name, email, password, phone) VALUES
+('Budi Santoso', 'budi@gmail.com', '123456', '081234567890'),
+('Siti Rahayu', 'siti@gmail.com', '123456', '089876543210');
+
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,

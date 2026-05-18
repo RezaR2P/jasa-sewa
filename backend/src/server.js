@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import itemRoutes from './routes/item.routes.js';
+import orderRoutes from './routes/order.routes.js';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/items', itemRoutes);
+app.use('/api/order', orderRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
