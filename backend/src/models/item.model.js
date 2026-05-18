@@ -25,6 +25,7 @@ const ItemModel = {
   },
   delete: async (id) => {
     const [result] = await db.execute('DELETE FROM items WHERE id = ?', [id]);
+    // 0= false 1=true
     return result.affectedRows > 0;
   },
 };
