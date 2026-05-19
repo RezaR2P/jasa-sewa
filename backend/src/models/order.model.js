@@ -31,6 +31,26 @@ const OrderModel = {
       conn.release();
     }
   },
+  getById: async (id) => {
+    const [rows] = await db.execute(
+      'SELECT * FROM orders JOIN order_items ON orders.id = order_items.order_id WHERE orders.id = ?',
+      [id]
+    );
+    const order = rows[0];
+    return {
+      id: order.order_id,
+      user_id: order.user_id,
+      rent_start: order.rent_start,
+      rent_end: order.rent_end,
+      total_price: order.total_price,
+      status: order.status,
+      items: rows.map((row) => ({
+        item_id: row.item_id,
+        quantity: row.quantity,
+        price_per_day: row.price_per_day,
+      })),
+    };
+  },
 };
 
 export default OrderModel;
