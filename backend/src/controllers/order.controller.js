@@ -72,3 +72,28 @@ export const getOrderById = async (req, res) => {
     });
   }
 };
+
+export const updateOrder = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { status } = req.body;
+    const order = await OrderModel.updateStatus(status, id);
+    if (!order) {
+      res.status(404).json({
+        success: false,
+        message: 'Data Tidak Ditemukan',
+      });
+    }
+    res.json({
+      success: true,
+      message: 'Order Berhasil di Update',
+      data: order,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'Terjadi Kesalahan di Server',
+    });
+  }
+};

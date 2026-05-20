@@ -51,6 +51,13 @@ const OrderModel = {
       })),
     };
   },
+  updateStatus: async (status, id) => {
+    const [order] = await db.execute(
+      'UPDATE orders SET status = ? WHERE id = ?',
+      [status, id]
+    );
+    return order.affectedRows > 0;
+  },
 };
 
 export default OrderModel;
