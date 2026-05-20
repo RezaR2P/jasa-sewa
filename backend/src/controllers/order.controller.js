@@ -85,8 +85,17 @@ export const getOrderById = async (req, res) => {
 
 export const updateOrder = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (errors.isEmpty() === false) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
     const id = req.params.id;
     const { status } = req.body;
+    console.log('id:', id);
+    console.log('status:', status);
     const order = await OrderModel.updateStatus(status, id);
     if (!order) {
       res.status(404).json({

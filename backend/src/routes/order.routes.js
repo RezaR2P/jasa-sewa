@@ -53,6 +53,17 @@ router.post(
   createOrder
 );
 router.get('/:id', getOrderById);
-router.patch('/:id/status', updateOrder);
+router.patch(
+  '/:id/status',
+  [
+    body('status')
+      .notEmpty()
+      .withMessage('Status Tidak boleh kosong')
+      .bail()
+      .isIn(['pending', 'active', 'returned', 'cancelled'])
+      .withMessage('Status harus pending, active, returned, cancelled'),
+  ],
+  updateOrder
+);
 
 export default router;
