@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator';
 import OrderModel from '../models/order.model.js';
 
-export const getOrders = async (req, res) => {
+export const getOrders = async (req, res, next) => {
   try {
     const order = await OrderModel.getAll();
     res.json({
@@ -10,15 +10,11 @@ export const getOrders = async (req, res) => {
       data: order,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Terjadi Kesalahan di server',
-    });
+    next(error);
   }
 };
 
-export const createOrder = async (req, res) => {
+export const createOrder = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (errors.isEmpty() === false) {
@@ -27,7 +23,8 @@ export const createOrder = async (req, res) => {
         errors: errors.array(),
       });
     }
-    const { user_id, rent_start, rent_end, items } = req.body;
+    const { rent_start, rent_end, items } = req.body;
+    const user_id = req.user.id;
     let total_price = 0;
     const start = new Date(rent_start);
     const end = new Date(rent_end);
@@ -51,15 +48,11 @@ export const createOrder = async (req, res) => {
       data: order,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Terjadi Kesalahan di server',
-    });
+    next(error);
   }
 };
 
-export const getOrderById = async (req, res) => {
+export const getOrderById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const rows = await OrderModel.getById(id);
@@ -75,15 +68,11 @@ export const getOrderById = async (req, res) => {
       data: rows,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Terjadi Kesalahan di Server',
-    });
+    next(error);
   }
 };
 
-export const updateOrder = async (req, res) => {
+export const updateOrder = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (errors.isEmpty() === false) {
@@ -109,10 +98,6 @@ export const updateOrder = async (req, res) => {
       data: order,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Terjadi Kesalahan di Server',
-    });
+    next(error);
   }
 };

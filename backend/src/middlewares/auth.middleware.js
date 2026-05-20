@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 const authMiddleware = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    console.log(authHeader);
     if (!authHeader) {
       return res.status(401).json({
         success: false,

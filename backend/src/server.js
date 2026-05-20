@@ -5,6 +5,10 @@ import dotenv from 'dotenv';
 import itemRoutes from './routes/item.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import {
+  errorHandler,
+  notFoundHandler,
+} from './middlewares/error.middleware.js';
 
 dotenv.config();
 
@@ -21,6 +25,9 @@ app.get('/', (req, res) => {
 app.use('/api/items', itemRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/auth', authRoutes);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -12,15 +12,8 @@ const router = Router();
 router.get('/', [authMiddleware], getOrders);
 router.post(
   '/',
-
   [
     authMiddleware,
-    body('user_id')
-      .notEmpty()
-      .withMessage('User id tidak boleh kosong')
-      .bail()
-      .isNumeric()
-      .withMessage('User id Harus Angka'),
     body('rent_start')
       .notEmpty()
       .withMessage('Tanggal Harus di isi')

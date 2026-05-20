@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator';
 import ItemModel from '../models/item.model.js';
 
-export const getItems = async (req, res) => {
+export const getItems = async (req, res, next) => {
   try {
     const items = await ItemModel.getAll();
     res.json({
@@ -10,15 +10,11 @@ export const getItems = async (req, res) => {
       data: items,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Terjadi kesalahan di server',
-    });
+    next(error);
   }
 };
 
-export const getItemsById = async (req, res) => {
+export const getItemsById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const item = await ItemModel.getById(id);
@@ -35,15 +31,11 @@ export const getItemsById = async (req, res) => {
       data: item,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Terjadi kesalahan di server',
-    });
+    next(error);
   }
 };
 
-export const createItem = async (req, res) => {
+export const createItem = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (errors.isEmpty() === false) {
@@ -66,15 +58,11 @@ export const createItem = async (req, res) => {
       data: item,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Kesalahan Server',
-    });
+    next(error);
   }
 };
 
-export const updateItem = async (req, res) => {
+export const updateItem = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (errors.isEmpty() === false) {
@@ -108,15 +96,11 @@ export const updateItem = async (req, res) => {
       data: item,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Kesalahan Server',
-    });
+    next(error);
   }
 };
 
-export const deleteItem = async (req, res) => {
+export const deleteItem = async (req, res, next) => {
   try {
     const id = req.params.id;
     const item = await ItemModel.delete(id);
@@ -132,10 +116,6 @@ export const deleteItem = async (req, res) => {
       data: item,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      message: 'Kesalahan Server',
-    });
+    next(error);
   }
 };
