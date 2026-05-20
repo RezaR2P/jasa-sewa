@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import ItemModel from '../models/item.model.js';
 
 export const getItems = async (req, res) => {
@@ -44,6 +45,13 @@ export const getItemsById = async (req, res) => {
 
 export const createItem = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (errors.isEmpty() === false) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
     const { name, description, price_per_day, stock, image_url } = req.body;
     const item = await ItemModel.create(
       name,

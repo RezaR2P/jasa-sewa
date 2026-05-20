@@ -1,3 +1,4 @@
+import { body, validationResult } from 'express-validator';
 import { Router } from 'express';
 import {
   getItems,
@@ -14,7 +15,25 @@ router.get('/', getItems);
 // get by id data barang
 router.get('/:id', getItemsById);
 // Create data barang
-router.post('/', createItem);
+router.post(
+  '/',
+  [
+    body('name').notEmpty().withMessage('Nama Tidak Boleh Kosong'),
+    body('price_per_day')
+      .notEmpty()
+      .withMessage('Harga Tidak Boleh Kosong')
+      .bail()
+      .isNumeric()
+      .withMessage('Harus angka tidak boleh huruf'),
+    body('stock')
+      .notEmpty()
+      .withMessage('Stock Tidak Boleh Kosong')
+      .bail()
+      .isNumeric()
+      .withMessage('Harus angka tidak boleh huruf'),
+  ],
+  createItem
+);
 // Update data barang
 router.put('/:id', updateItem);
 // Delete data barang
