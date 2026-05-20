@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import authMiddleware from '../middlewares/auth.middleware.js';
 import {
   getOrders,
   createOrder,
@@ -8,10 +9,12 @@ import {
 import { body } from 'express-validator';
 const router = Router();
 
-router.get('/', getOrders);
+router.get('/', [authMiddleware], getOrders);
 router.post(
   '/',
+
   [
+    authMiddleware,
     body('user_id')
       .notEmpty()
       .withMessage('User id tidak boleh kosong')
@@ -52,10 +55,11 @@ router.post(
   ],
   createOrder
 );
-router.get('/:id', getOrderById);
+router.get('/:id', [authMiddleware], getOrderById);
 router.patch(
   '/:id/status',
   [
+    authMiddleware,
     body('status')
       .notEmpty()
       .withMessage('Status Tidak boleh kosong')
