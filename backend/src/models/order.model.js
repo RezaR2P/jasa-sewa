@@ -25,7 +25,7 @@ const OrderModel = {
       await conn.commit();
       return order_id;
     } catch (error) {
-      await conn.rollback;
+      await conn.rollback();
       throw error;
     } finally {
       conn.release();

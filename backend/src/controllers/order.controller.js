@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import OrderModel from '../models/order.model.js';
 
 export const getOrders = async (req, res) => {
@@ -19,6 +20,13 @@ export const getOrders = async (req, res) => {
 
 export const createOrder = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (errors.isEmpty() === false) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
     const { user_id, rent_start, rent_end, items } = req.body;
     let total_price = 0;
     const start = new Date(rent_start);
@@ -28,13 +36,15 @@ export const createOrder = async (req, res) => {
     for (const item of items) {
       total_price += item.quantity * item.price_per_day * jumlah_hari;
     }
-    const order = await OrderModel.create(
+    const created = await OrderModel.create(
       user_id,
       rent_start,
       rent_end,
       total_price,
       items
     );
+
+    const order = await OrderModel.getById(created);
     res.status(201).json({
       success: true,
       message: 'Order Berhasil Di buat',
