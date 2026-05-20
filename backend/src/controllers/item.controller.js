@@ -76,10 +76,17 @@ export const createItem = async (req, res) => {
 
 export const updateItem = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (errors.isEmpty() === false) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array(),
+      });
+    }
     const { id } = req.params;
     const { name, description, price_per_day, stock, image_url } = req.body;
 
-    const item = await ItemModel.update(
+    const updated = await ItemModel.update(
       name,
       description,
       price_per_day,
@@ -87,12 +94,14 @@ export const updateItem = async (req, res) => {
       image_url,
       id
     );
-    if (!item) {
+    if (!updated) {
       return res.status(404).json({
         success: false,
         message: 'Data tidak ditemukan',
       });
     }
+    const item = await ItemModel.getById(id);
+
     res.json({
       success: true,
       message: 'Daftar Barang Berhasil Di Update',

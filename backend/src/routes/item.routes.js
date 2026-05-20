@@ -35,7 +35,25 @@ router.post(
   createItem
 );
 // Update data barang
-router.put('/:id', updateItem);
+router.put(
+  '/:id',
+  [
+    body('name').notEmpty().withMessage('Nama Tidak Boleh Kosong'),
+    body('price_per_day')
+      .notEmpty()
+      .withMessage('Harga Tidak Boleh Kosong')
+      .bail()
+      .isNumeric()
+      .withMessage('Harus angka tidak boleh huruf'),
+    body('stock')
+      .notEmpty()
+      .withMessage('Stock Tidak Boleh Kosong')
+      .bail()
+      .isNumeric()
+      .withMessage('Harus angka tidak boleh huruf'),
+  ],
+  updateItem
+);
 // Delete data barang
 router.delete('/:id', deleteItem);
 
