@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { register } from '../controllers/auth.controller.js';
+import { register, login } from '../controllers/auth.controller.js';
 import { body } from 'express-validator';
 
 const router = Router();
@@ -23,6 +23,19 @@ router.post(
     body('phone').notEmpty().withMessage('Nomor HP Wajib Di isi'),
   ],
   register
+);
+router.post(
+  '/login',
+  [
+    body('email')
+      .notEmpty()
+      .withMessage('Email Tidak Boleh Kosong')
+      .bail()
+      .isEmail()
+      .withMessage('Format email Salah Gunakan @'),
+    body('password').notEmpty().withMessage('Password Tidak Boleh Kosong'),
+  ],
+  login
 );
 
 export default router;
